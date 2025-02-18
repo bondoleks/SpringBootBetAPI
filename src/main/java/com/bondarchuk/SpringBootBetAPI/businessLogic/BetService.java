@@ -27,24 +27,21 @@ public class BetService {
     }
 
     public Map<String, BigDecimal> getBets(Car car) {
-        // Формуємо мапу з усіма авто, де сума ставок за замовчуванням 0
         Map<String, BigDecimal> result = Arrays.stream(Car.values())
                 .collect(Collectors.toMap(Car::getName, c -> BigDecimal.ZERO));
 
-        // Додаємо реальні ставки з колекції `bets`
         bets.stream()
                 .collect(Collectors.groupingBy(
                         bet -> bet.getCar().getName(),
                         Collectors.reducing(BigDecimal.ZERO, Bet::getAmount, BigDecimal::add)
                 ))
-                .forEach(result::put); // Оновлюємо ставки в основній мапі
+                .forEach(result::put);
 
-        // Якщо передане авто є в списку, повертаємо тільки його ставку
         if (car != null && result.containsKey(car.getName()) && result.get(car.getName()).compareTo(BigDecimal.ZERO) > 0) {
             return Map.of(car.getName(), result.get(car.getName()));
         }
 
-        return result; // Повертаємо всі авто з їхніми ставками
+        return result;
     }
 }
 
