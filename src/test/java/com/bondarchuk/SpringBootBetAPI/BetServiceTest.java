@@ -69,7 +69,7 @@ class BetServiceTest {
         Map<String, BigDecimal> bets = betService.getBets(null);
 
         for (Car car : Car.values()) {
-            assertEquals(new BigDecimal("0.00"), bets.get(car.getName()));
+            assertEquals(new BigDecimal("0"), bets.get(car.getName()));
         }
     }
 
